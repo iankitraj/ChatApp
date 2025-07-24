@@ -121,7 +121,9 @@ cd ChatApp
 
 
 
-💡 Contributing
+
+**💡 Contributing**
+
 Contributions are welcome!
 To contribute:
 
