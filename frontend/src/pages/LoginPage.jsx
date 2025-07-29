@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import AuthImagePattern from "../components/AuthImagePattern";
 import { Link } from "react-router-dom";
@@ -15,11 +15,6 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
   const { login, isLoggingIn } = useAuthStore();
-  const emailRef = useRef(null);
-
-  useEffect(() => {
-    emailRef.current?.focus();
-  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,64 +22,71 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen grid lg:grid-cols-2 bg-[#0f172a] text-white">
+    <div className="min-h-screen grid lg:grid-cols-2 bg-base-200">
       {/* Left Side - Form */}
-      <div className="flex items-center justify-center px-6 sm:px-12">
-        <div className="w-full max-w-md space-y-8 bg-[#1e293b] p-8 rounded-xl shadow-xl animate-fade-in">
+      <div className="flex items-center justify-center p-6 sm:p-12">
+        <div className="w-full max-w-md bg-base-100 p-8 rounded-xl shadow-xl">
           {/* Header */}
-          <div className="text-center">
-            <div className="flex flex-col items-center gap-3">
-              <div className="size-12 bg-[#334155] rounded-xl flex items-center justify-center">
-                <MessageSquare className="size-6 text-indigo-400" />
+          <div className="text-center mb-8">
+            <div className="flex flex-col items-center gap-2 group">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <MessageSquare className="w-6 h-6 text-primary" />
               </div>
-              <h2 className="text-2xl font-bold">Welcome Back</h2>
-              <p className="text-sm text-gray-400">Sign in to your account</p>
+              <h2 className="text-2xl font-bold mt-2 text-base-content">
+                Welcome Back
+              </h2>
+              <p className="text-sm text-base-content/60">
+                Sign in to your account
+              </p>
             </div>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email Field */}
-            <div className="form-control">
-              <label className="label font-medium text-sm">Email</label>
+            <div>
+              <label className="label">
+                <span className="label-text font-medium">Email</span>
+              </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-3.5 text-gray-500 size-5" />
                 <input
                   type="email"
-                  ref={emailRef}
-                  className="w-full bg-[#0f172a] text-white placeholder-gray-400 border border-gray-600 rounded-md py-2 pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="input input-bordered w-full pl-10"
                   placeholder="you@example.com"
                   value={formData.email}
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
                   }
                 />
+                <Mail className="absolute top-1/2 left-3 -translate-y-1/2 w-5 h-5 text-base-content/40" />
               </div>
             </div>
 
             {/* Password Field */}
-            <div className="form-control">
-              <label className="label font-medium text-sm">Password</label>
+            <div>
+              <label className="label">
+                <span className="label-text font-medium">Password</span>
+              </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-3.5 text-gray-500 size-5" />
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="w-full bg-[#0f172a] text-white placeholder-gray-400 border border-gray-600 rounded-md py-2 pl-10 pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="input input-bordered w-full pl-10 pr-10"
                   placeholder="••••••••"
                   value={formData.password}
                   onChange={(e) =>
                     setFormData({ ...formData, password: e.target.value })
                   }
                 />
+                <Lock className="absolute top-1/2 left-3 -translate-y-1/2 w-5 h-5 text-base-content/40" />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3.5 text-gray-500"
+                  className="absolute top-1/2 right-3 -translate-y-1/2 text-base-content/40"
                 >
                   {showPassword ? (
-                    <EyeOff className="size-5" />
+                    <EyeOff className="w-5 h-5" />
                   ) : (
-                    <Eye className="size-5" />
+                    <Eye className="w-5 h-5" />
                   )}
                 </button>
               </div>
@@ -93,11 +95,11 @@ const LoginPage = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-medium py-2 rounded-md transition"
+              className="btn btn-primary w-full"
               disabled={isLoggingIn}
             >
               {isLoggingIn ? (
-                <div className="flex items-center justify-center gap-2">
+                <div className="flex items-center gap-2">
                   <Loader2 className="h-5 w-5 animate-spin" />
                   Signing in...
                 </div>
@@ -107,17 +109,19 @@ const LoginPage = () => {
             </button>
           </form>
 
-          {/* Footer Link */}
-          <div className="text-center text-sm text-gray-400">
-            Don’t have an account?{" "}
-            <Link to="/signup" className="text-indigo-400 hover:underline">
-              Create account
-            </Link>
+          {/* Footer */}
+          <div className="text-center mt-4">
+            <p className="text-base-content/60">
+              Don’t have an account?{" "}
+              <Link to="/signup" className="link link-primary">
+                Create account
+              </Link>
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Right Side - AuthImagePattern */}
+      {/* Right Side - Image/Pattern */}
       <AuthImagePattern
         title="Welcome back!"
         subtitle="Sign in to continue your conversations and catch up with your messages."
